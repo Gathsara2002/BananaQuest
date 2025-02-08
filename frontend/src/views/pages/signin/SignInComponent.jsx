@@ -8,12 +8,13 @@ const SignInComponent = () => {
                 <div className='signin-card'>
                     <h1 className='signin-text'>SignIn</h1>
                     <input type="text" name="email" className="input" placeholder="Email"
-                           style={{marginBottom: '20px', marginTop: '20px'}}/>
+                           style={{marginBottom: '20px', marginTop: '10px'}}/>
                     <input type="text" name="username" className="input" placeholder="Username"
                            style={{marginBottom: '20px'}}/>
                     <input type="password" name="password" className="input" placeholder="Password"
                            style={{marginBottom: '20px'}}/>
                     <button className='button'>SignIn</button>
+                    <p className='login-link'>Already have an account <a href="/public">Login</a></p>
                 </div>
             </div>
         </div>
