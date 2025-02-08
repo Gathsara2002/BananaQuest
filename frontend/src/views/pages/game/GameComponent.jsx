@@ -1,12 +1,19 @@
 import React, {useEffect, useState} from 'react';
 import './style.css';
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 const GameComponent = () => {
 
     const [data, setData] = useState(null);
     const [imageUrl, setImageUrl] = useState(null);
     const [solution, setSolution] = useState(0);
+
+    const navigate = useNavigate();
+
+    const gameWin = () => {
+        navigate('/win')
+    }
 
     useEffect(() => {
         axios.get('https://marcconrad.com/uob/banana/api.php?out=json&base64=no')
@@ -28,7 +35,7 @@ const GameComponent = () => {
                 <img src={imageUrl} alt="error"/>
             </div>
             <div className='game-play-button-panel'>
-                <button className='game-play-button'>0</button>
+                <button className='game-play-button' onClick={gameWin}>0</button>
                 <button className='game-play-button'>1</button>
                 <button className='game-play-button'>2</button>
                 <button className='game-play-button'>3</button>
