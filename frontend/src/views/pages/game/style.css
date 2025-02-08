@@ -1,0 +1,56 @@
+.game-play-wrapper {
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(135deg, #6fbf73, #b6e37a, #ffe27a);
+    position: relative;
+
+    .game-play-content {
+        width: 660px;
+        height: 360px;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        position: relative;
+        margin-left: auto;
+        margin-right: auto;
+        top: 100px;
+        padding: 25px;
+        background-color: white;
+    }
+
+    .game-play-image {
+        width: 660px;
+        height: 360px;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    .game-play-button-panel {
+        width: 90vw;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 160px;
+        display: flex;
+        justify-content: space-evenly;
+    }
+
+    .game-play-button {
+        width: 80px;
+        height: 80px;
+        border: none;
+        outline: none;
+        background-color: #e8b511;
+        padding: 12px 20px;
+        font-size: 25px;
+        font-family: cursive;
+        font-weight: 700;
+        color: #fff;
+        border-radius: 5px;
+        transition: all ease 0.1s;
+        box-shadow: 5px 5px 0px 0px #edd586;
+    }
+
+    .game-play-button:active {
+        transform: translateY(5px);
+        box-shadow: 0px 0px 0px 0px #edd586;
+    }
+}

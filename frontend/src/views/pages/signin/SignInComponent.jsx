@@ -1,7 +1,13 @@
 import React from 'react';
 import './style.css';
+import {useNavigate} from "react-router-dom";
 
 const SignInComponent = () => {
+
+    const navigate = useNavigate();
+
+    const loginGame= () => navigate('/login');
+
     return (
         <div className='signin-wrapper'>
             <div className='signin-wallpaper'>
@@ -13,8 +19,8 @@ const SignInComponent = () => {
                            style={{marginBottom: '20px'}}/>
                     <input type="password" name="password" className="input" placeholder="Password"
                            style={{marginBottom: '20px'}}/>
-                    <button className='button'>SignIn</button>
-                    <p className='login-link'>Already have an account <a href="/public">Login</a></p>
+                    <button className='button' onClick={loginGame}>SignIn</button>
+                    <p className='login-link'>Already have an account <a href="/login">Login</a></p>
                 </div>
             </div>
         </div>
