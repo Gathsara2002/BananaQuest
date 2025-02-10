@@ -31,6 +31,13 @@ const GameComponent = () => {
 
     return (
         <div className='game-play-wrapper'>
+            <h1 className='game-play-timer'>Time : 00.44</h1>
+            <div className='game-play-control'>
+                <div className='game-play-control-content mute'></div>
+                <div className='game-play-control-content pause'></div>
+                <div className='game-play-control-content resume'></div>
+                <div className='game-play-control-content retry'></div>
+            </div>
             <div className='game-play-content'>
                 <img src={imageUrl} alt="error"/>
             </div>
