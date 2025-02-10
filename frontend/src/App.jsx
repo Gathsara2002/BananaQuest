@@ -5,6 +5,7 @@ import LogInComponent from "./views/pages/login/LogInComponent.jsx";
 import PlayComponent from "./views/pages/play/PlayComponent.jsx";
 import GameComponent from "./views/pages/game/GameComponent.jsx";
 import WinComponent from "./views/pages/win/WinComponent.jsx";
+import LostComponent from "./views/pages/lost/LostComponent.jsx";
 
 function App() {
 
@@ -26,6 +27,9 @@ function App() {
                 </Route>
                 <Route path="/win"
                        element={<WinComponent/>}>
+                </Route>
+                <Route path="/lost"
+                       element={<LostComponent/>}>
                 </Route>
             </Routes>
         </Router>
