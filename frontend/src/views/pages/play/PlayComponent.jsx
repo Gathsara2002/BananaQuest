@@ -18,6 +18,10 @@ const PlayComponent = () => {
         navigate('/login')
     }
 
+    const goToCredits = () => {
+        navigate('/credits')
+    }
+
     return (
         <div className='play-wrapper'>
             <div className='play-wallpaper'>
@@ -26,7 +30,7 @@ const PlayComponent = () => {
                     <button className='button' style={{marginBottom: '20px'}} onClick={playGame}>Load Game</button>
                     <button className='button' style={{marginBottom: '20px'}} onClick={goToLeaderboard}>Leaderboard</button>
                     <button className='button' style={{marginBottom: '20px'}} onClick={logOut}>Log Out</button>
-                    <button className='button'>Credits</button>
+                    <button className='button' onClick={goToCredits}>Credits</button>
                 </div>
             </div>
         </div>

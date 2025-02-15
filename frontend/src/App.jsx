@@ -7,6 +7,7 @@ import GameComponent from "./views/pages/game/GameComponent.jsx";
 import WinComponent from "./views/pages/win/WinComponent.jsx";
 import LostComponent from "./views/pages/lost/LostComponent.jsx";
 import LeaderboardComponent from "./views/pages/leaderboard/LeaderboardComponent.jsx";
+import CreditComponent from "./views/pages/credit/CreditComponent.jsx";
 
 function App() {
 
@@ -34,6 +35,9 @@ function App() {
                 </Route>
                 <Route path="/leaderboard"
                        element={<LeaderboardComponent/>}>
+                </Route>
+                <Route path="/credits"
+                       element={<CreditComponent/>}>
                 </Route>
             </Routes>
         </Router>
