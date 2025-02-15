@@ -1,7 +1,15 @@
 import React from 'react';
 import './style.css';
+import {useNavigate} from "react-router-dom";
 
 const LeaderboardComponent = () => {
+
+    const navigate = useNavigate();
+
+    const goToMenu = () => {
+        navigate('/load')
+    }
+
     return (
         <div className='leaderboard-wrapper'>
             <div className='leaderboard-bg-image'>
@@ -10,7 +18,7 @@ const LeaderboardComponent = () => {
                 </div>
             </div>
             <div className='leaderboard-buttons'>
-                <div className='home-btn'></div>
+                <div className='home-btn' onClick={goToMenu}></div>
             </div>
         </div>
     );
