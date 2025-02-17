@@ -7,19 +7,19 @@ import lombok.NoArgsConstructor;
 
 /**
  * @author : Gathsara
- * created : 2/17/2025 -- 9:31 PM
+ * created : 2/17/2025 -- 9:36 PM
  **/
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Table(name = "sign_in")
-public class SignIn {
+@Table(name = "player")
+public class Player {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
-    String email;
-    String password;
-    String username;
+    Long playerId;
+    Long score;
+    @OneToOne
+    SignIn signIn;
 }
