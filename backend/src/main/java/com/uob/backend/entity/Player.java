@@ -21,5 +21,6 @@ public class Player {
     Long playerId;
     Long score;
     @OneToOne
+    @JoinColumn(name = "sign_in_id", nullable = false)
     SignIn signIn;
 }
