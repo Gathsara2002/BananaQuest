@@ -9,5 +9,5 @@ import com.uob.backend.dto.SignInDTO;
  **/
 
 public interface PlayerService {
-    ResponseDTO signInUser(SignInDTO dto);
+
 }

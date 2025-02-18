@@ -1,8 +1,12 @@
 package com.uob.backend.controller;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.uob.backend.dto.ResponseDTO;
+import com.uob.backend.dto.SignInDTO;
+import com.uob.backend.service.SignInService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author : Gathsara
@@ -12,5 +16,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @CrossOrigin
 @RequestMapping("/api/v1/sign-in")
+@RequiredArgsConstructor
 public class SignInController {
+
+    private final SignInService signInService;
+
+    @PostMapping("/save")
+    public ResponseEntity<ResponseDTO> signInUser(@RequestBody SignInDTO dto) {
+        ResponseDTO response = signInService.signInUser(dto);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 }
