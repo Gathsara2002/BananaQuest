@@ -1,6 +1,5 @@
 package com.uob.backend.service.impl;
 
-import com.uob.backend.repository.SignInRepository;
 import com.uob.backend.service.SignInService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -15,5 +14,4 @@ import org.springframework.stereotype.Service;
 @Transactional
 @RequiredArgsConstructor
 public class SignInServiceImpl implements SignInService {
-    private final SignInRepository repository;
 }

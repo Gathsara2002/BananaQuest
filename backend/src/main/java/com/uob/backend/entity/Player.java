@@ -18,9 +18,9 @@ import lombok.NoArgsConstructor;
 public class Player {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long playerId;
-    Long score;
+    private Long playerId;
+    private Long score;
     @OneToOne
     @JoinColumn(name = "sign_in_id", nullable = false)
-    SignIn signIn;
+    private SignIn signIn;
 }

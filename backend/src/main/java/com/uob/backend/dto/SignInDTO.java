@@ -1,23 +1,20 @@
-package com.uob.backend.entity;
+package com.uob.backend.dto;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  * @author : Gathsara
- * created : 2/17/2025 -- 9:31 PM
+ * created : 2/18/2025 -- 5:14 PM
  **/
 
-@Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Table(name = "sign_in")
-public class SignIn {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+@ToString
+public class SignInDTO {
     private Long id;
     private String email;
     private String password;
