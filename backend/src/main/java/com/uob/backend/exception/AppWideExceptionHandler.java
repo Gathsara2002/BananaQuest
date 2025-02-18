@@ -22,7 +22,7 @@ public class AppWideExceptionHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseEntity<ResponseDTO> handleException(RuntimeException e) {
         return new ResponseEntity<>(
-                new ResponseDTO("An unexpected error occurred", "500", e.getMessage(), new Date().toString()),
+                new ResponseDTO("An unexpected error occurred", "500",new Date().toString(), e.getMessage()),
                 HttpStatus.INTERNAL_SERVER_ERROR
         );
     }
