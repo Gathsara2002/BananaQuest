@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -38,5 +40,21 @@ public class SignInServiceImpl implements SignInService {
         SignIn signInUser = mapper.map(dto, SignIn.class);
         SignIn savedUser = repository.save(signInUser);
         return new ResponseDTO("User saved successfully!", "200", savedUser);
+    }
+
+    @Override
+    public ResponseDTO getAllUsers() {
+        List<SignIn> all = repository.findAll();
+        if (all.isEmpty()) {
+            return new ResponseDTO("No users found!", "500", all);
+        }
+
+        ArrayList<SignInDTO> userList = new ArrayList<>();
+
+        for (SignIn signIn : all) {
+            SignInDTO map = mapper.map(signIn, SignInDTO.class);
+            userList.add(map);
+        }
+        return new ResponseDTO("Success!", "200", userList);
     }
 }

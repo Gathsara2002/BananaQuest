@@ -10,4 +10,6 @@ import com.uob.backend.dto.SignInDTO;
 
 public interface SignInService {
     ResponseDTO signInUser(SignInDTO dto);
+    ResponseDTO getAllUsers();
+
 }

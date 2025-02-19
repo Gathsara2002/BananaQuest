@@ -26,4 +26,10 @@ public class SignInController {
         ResponseDTO response = signInService.signInUser(dto);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @GetMapping("/get-all")
+    public ResponseEntity<ResponseDTO> getAllUsers() {
+        ResponseDTO allUsers = signInService.getAllUsers();
+        return new ResponseEntity<>(allUsers, HttpStatus.OK);
+    }
 }
