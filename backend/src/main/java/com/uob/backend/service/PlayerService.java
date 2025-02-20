@@ -11,4 +11,5 @@ import com.uob.backend.dto.SignInDTO;
 
 public interface PlayerService {
     ResponseDTO savePlayer(PlayerDTO dto);
+    ResponseDTO getAllPlayers(int page,int size);
 }

@@ -32,7 +32,7 @@ public class SignInController {
             PlayerDTO playerDTO = new PlayerDTO();
             playerDTO.setScore(0);
             playerDTO.setSignInDTO((SignInDTO) response.getResult());
-            playerService.savePlayer(playerDTO);
+            ResponseDTO responseDTO = playerService.savePlayer(playerDTO);
         }
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
