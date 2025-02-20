@@ -1,9 +1,9 @@
 package com.uob.backend.service.impl;
 
+import com.uob.backend.dto.PlayerDTO;
 import com.uob.backend.dto.ResponseDTO;
-import com.uob.backend.dto.SignInDTO;
-import com.uob.backend.entity.SignIn;
-import com.uob.backend.repository.SignInRepository;
+import com.uob.backend.entity.Player;
+import com.uob.backend.repository.PlayerRepository;
 import com.uob.backend.service.PlayerService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -21,4 +21,18 @@ import java.util.Optional;
 @Transactional
 @RequiredArgsConstructor
 public class PlayerServiceImpl implements PlayerService {
+
+    private final PlayerRepository repository;
+    private final ModelMapper mapper;
+
+    @Override
+    public ResponseDTO savePlayer(PlayerDTO dto) {
+        Optional<Player> player = repository.findBySignIn(dto.getDto().getId());
+        if (player.isPresent()) {
+            return new ResponseDTO("Player already exist!", "500", player.get());
+        }
+        Player mapped = mapper.map(dto, Player.class);
+        Player save = repository.save(mapped);
+        return new ResponseDTO("Player saved successfully!", "200", save);
+    }
 }

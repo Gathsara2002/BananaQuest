@@ -16,6 +16,6 @@ import lombok.ToString;
 @ToString
 public class PlayerDTO {
     private Long playerId;
-    private Long score;
-    private SignInDTO dto;
+    private Integer score;
+    private SignInDTO signInDTO;
 }

@@ -1,7 +1,9 @@
 package com.uob.backend.controller;
 
+import com.uob.backend.dto.PlayerDTO;
 import com.uob.backend.dto.ResponseDTO;
 import com.uob.backend.dto.SignInDTO;
+import com.uob.backend.service.PlayerService;
 import com.uob.backend.service.SignInService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,10 +22,18 @@ import org.springframework.web.bind.annotation.*;
 public class SignInController {
 
     private final SignInService signInService;
+    private final PlayerService playerService;
 
     @PostMapping("/save")
     public ResponseEntity<ResponseDTO> signInUser(@RequestBody SignInDTO dto) {
         ResponseDTO response = signInService.signInUser(dto);
+        // If sign in success save player
+        if (response.getCode().equalsIgnoreCase("200")) {
+            PlayerDTO playerDTO = new PlayerDTO();
+            playerDTO.setScore(0);
+            playerDTO.setSignInDTO((SignInDTO) response.getResult());
+            playerService.savePlayer(playerDTO);
+        }
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

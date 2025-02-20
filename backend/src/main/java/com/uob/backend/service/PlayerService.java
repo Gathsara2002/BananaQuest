@@ -1,5 +1,6 @@
 package com.uob.backend.service;
 
+import com.uob.backend.dto.PlayerDTO;
 import com.uob.backend.dto.ResponseDTO;
 import com.uob.backend.dto.SignInDTO;
 
@@ -9,5 +10,5 @@ import com.uob.backend.dto.SignInDTO;
  **/
 
 public interface PlayerService {
-
+    ResponseDTO savePlayer(PlayerDTO dto);
 }

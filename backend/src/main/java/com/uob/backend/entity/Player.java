@@ -19,7 +19,7 @@ public class Player {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long playerId;
-    private Long score;
+    private Integer score;
     @OneToOne
     @JoinColumn(name = "sign_in_id", nullable = false)
     private SignIn signIn;
