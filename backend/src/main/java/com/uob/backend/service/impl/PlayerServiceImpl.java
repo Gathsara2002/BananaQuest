@@ -42,8 +42,8 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
-    public ResponseDTO getAllPlayers(int page,int size) {
-        Pageable pageable= PageRequest.of(page,size);
+    public ResponseDTO getAllPlayers(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
         Page<Player> all = repository.findAll(pageable);
         if (all.isEmpty()) {
             return new ResponseDTO("No players to display!", "500", null);
@@ -54,5 +54,11 @@ public class PlayerServiceImpl implements PlayerService {
             list.add(map);
         }
         return new ResponseDTO("Success", "200", list);
+    }
+
+    @Override
+    public ResponseDTO getPlayerById(Long playerId) {
+        Optional<Player> player = repository.findById(playerId);
+        return player.map(value -> new ResponseDTO("Player", "200", value)).orElseGet(() -> new ResponseDTO("Player not exist!", "500", player.get()));
     }
 }
