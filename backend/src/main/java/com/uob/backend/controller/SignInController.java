@@ -1,5 +1,6 @@
 package com.uob.backend.controller;
 
+import com.uob.backend.dto.LoginDTO;
 import com.uob.backend.dto.PlayerDTO;
 import com.uob.backend.dto.ResponseDTO;
 import com.uob.backend.dto.SignInDTO;
@@ -41,5 +42,10 @@ public class SignInController {
     public ResponseEntity<ResponseDTO> getAllUsers() {
         ResponseDTO allUsers = signInService.getAllUsers();
         return new ResponseEntity<>(allUsers, HttpStatus.OK);
+    }
+
+    @PostMapping("/login")
+    public void loginPlayer(@RequestBody LoginDTO loginDTO) {
+
     }
 }
