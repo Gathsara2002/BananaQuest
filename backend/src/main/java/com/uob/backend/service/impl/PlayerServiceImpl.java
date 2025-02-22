@@ -14,7 +14,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -32,7 +31,7 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public ResponseDTO savePlayer(PlayerDTO dto) {
-        Optional<Player> player = repository.findBySignIn(dto.getSignInDTO().getId());
+        Optional<Player> player = repository.findBySignIn_Id(dto.getSignInDTO().getId());
         if (player.isPresent()) {
             return new ResponseDTO("Player already exist!", "500", player.get());
         }

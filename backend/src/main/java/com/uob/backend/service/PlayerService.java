@@ -2,7 +2,6 @@ package com.uob.backend.service;
 
 import com.uob.backend.dto.PlayerDTO;
 import com.uob.backend.dto.ResponseDTO;
-import com.uob.backend.dto.SignInDTO;
 
 /**
  * @author : Gathsara
@@ -11,6 +10,8 @@ import com.uob.backend.dto.SignInDTO;
 
 public interface PlayerService {
     ResponseDTO savePlayer(PlayerDTO dto);
-    ResponseDTO getAllPlayers(int page,int size);
+
+    ResponseDTO getAllPlayers(int page, int size);
+
     ResponseDTO getPlayerById(Long playerId);
 }
