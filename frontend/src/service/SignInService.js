@@ -1,6 +1,5 @@
 import BASE_URL from "../url/urlConfiguration.js";
 import axios from "axios";
-import log from "eslint-plugin-react/lib/util/log.js";
 
 export async function signInUser(signIn) {
     try {
