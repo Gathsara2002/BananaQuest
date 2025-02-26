@@ -11,7 +11,6 @@ const SignInComponent = () => {
     const [password, setPassword] = useState("");
 
     const handleSignIn = () => {
-        // Collect user input
         const userDetails = {
             email,
             username,
@@ -21,7 +20,7 @@ const SignInComponent = () => {
         signInUser(userDetails)
             .then(response => {
                 console.log('Sign-in successful:', response);
-                navigate('/login'); // Redirect to dashboard or desired page
+                navigate('/login');
             })
             .catch(error => {
                 console.error('Sign-in failed:', error);

@@ -37,7 +37,7 @@
         box-shadow: 10px 10px 30px #c5c5c5,
         -10px -10px 30px #ffffff;
         transition: 0.3s;
-
+        color: black;
     }
 
     .input:focus {
