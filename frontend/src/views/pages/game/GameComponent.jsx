@@ -9,6 +9,7 @@ const GameComponent = () => {
     const [solution, setSolution] = useState(0);
     const [timeLeft, setTimeLeft] = useState(60);
     const [isImageLoaded, setIsImageLoaded] = useState(false);
+    const [reloadGame, setReloadGame] = useState(false);
 
     const navigate = useNavigate();
 
@@ -20,7 +21,10 @@ const GameComponent = () => {
         navigate('/lost');
     };
 
-    useEffect(() => {
+    const loadGame = () => {
+        setTimeLeft(60);
+        setIsImageLoaded(false);
+
         axios.get('https://marcconrad.com/uob/banana/api.php?out=json&base64=no')
             .then((response) => {
                 setData(response);
@@ -28,15 +32,23 @@ const GameComponent = () => {
                 setSolution(response.data.solution);
             })
             .catch(error => console.error('Error fetching data:', error));
-    }, []);
+    }
 
     useEffect(() => {
+        loadGame();
+    }, [reloadGame]);
+
+    useEffect(() => {
+        let timer;
         if (isImageLoaded && timeLeft > 0) {
-            const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
-            return () => clearTimeout(timer);
+            timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
         } else if (timeLeft === 0) {
             gameLost();
         }
+
+        return () => {
+            if (timer) clearTimeout(timer);
+        };
     }, [timeLeft, isImageLoaded]);
 
     const handleAnswer = (num) => {
@@ -47,18 +59,22 @@ const GameComponent = () => {
         }
     };
 
+    const handleRetry = () => {
+        setReloadGame(!reloadGame);
+    };
+
     return (
         <div className='game-play-wrapper'>
-            <h1 className='game-play-timer'>Time : 00:{timeLeft}</h1>
+            <h1 className='game-play-timer'>Time : 00:{timeLeft < 10 ? `0${timeLeft}` : timeLeft}</h1>
             <div className='game-play-control'>
                 <div className='game-play-control-content mute'></div>
                 <div className='game-play-control-content pause'></div>
                 <div className='game-play-control-content resume'></div>
-                <div className='game-play-control-content retry'></div>
+                <div className='game-play-control-content retry' onClick={handleRetry}></div>
             </div>
             <div className='game-play-content'>
                 {!isImageLoaded && <div className='image-loader'>Loading...</div>}
-                <img src={imageUrl} alt="error" onLoad={() => setIsImageLoaded(true)}
+                <img src={imageUrl} alt="game puzzle" onLoad={() => setIsImageLoaded(true)}
                      style={{display: isImageLoaded ? 'block' : 'none'}}/>
             </div>
             <div className='game-play-button-panel'>
