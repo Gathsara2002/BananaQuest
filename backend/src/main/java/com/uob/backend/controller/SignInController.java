@@ -26,13 +26,14 @@ public class SignInController {
     private final PlayerService playerService;
 
     @PostMapping("/save")
-    public ResponseEntity<ResponseDTO> signInUser(@RequestBody SignInDTO dto) {
-        ResponseDTO response = signInService.signInUser(dto);
+    public ResponseEntity<SignInDTO> signInUser(@RequestBody SignInDTO dto) {
+        SignInDTO response = signInService.signInUser(dto);
         // If sign in success save player
-        if (response.getCode().equalsIgnoreCase("200")) {
+        if (response.getId() != 0) {
             PlayerDTO playerDTO = new PlayerDTO();
             playerDTO.setScore(0);
-            playerDTO.setSignInDTO((SignInDTO) response.getResult());
+            playerDTO.setSignInDTO(response);
+            System.out.println(playerDTO);
             ResponseDTO responseDTO = playerService.savePlayer(playerDTO);
         }
         return new ResponseEntity<>(response, HttpStatus.OK);

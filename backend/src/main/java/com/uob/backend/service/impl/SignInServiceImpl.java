@@ -28,18 +28,19 @@ public class SignInServiceImpl implements SignInService {
     private final ModelMapper mapper;
 
     @Override
-    public ResponseDTO signInUser(SignInDTO dto) {
+    public SignInDTO signInUser(SignInDTO dto) {
         //check if user already exist using email.
         Optional<SignIn> user = repository.findByEmail(dto.getEmail());
         boolean isExist = user.isPresent();
         if (isExist) {
-            return new ResponseDTO("Email already saved.User another one!", "500", user);
+            return null;
         }
 
         //save user
         SignIn signInUser = mapper.map(dto, SignIn.class);
         SignIn savedUser = repository.save(signInUser);
-        return new ResponseDTO("User saved successfully!", "200", savedUser);
+        SignInDTO signInDTO = mapper.map(savedUser, SignInDTO.class);
+        return signInDTO;
     }
 
     @Override
