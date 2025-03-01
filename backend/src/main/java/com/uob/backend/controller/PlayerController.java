@@ -1,5 +1,6 @@
 package com.uob.backend.controller;
 
+import com.uob.backend.dto.PlayerDTO;
 import com.uob.backend.dto.ResponseDTO;
 import com.uob.backend.service.PlayerService;
 import lombok.RequiredArgsConstructor;
@@ -30,5 +31,11 @@ public class PlayerController {
     public ResponseEntity<ResponseDTO> getPlayerById(@RequestParam Long playerId) {
         ResponseDTO player = playerService.getPlayerById(playerId);
         return new ResponseEntity<>(player, HttpStatus.OK);
+    }
+
+    @PostMapping("score")
+    public ResponseEntity<ResponseDTO> score(@RequestBody PlayerDTO dto) {
+        ResponseDTO score = playerService.score(dto);
+        return new ResponseEntity<>(score, HttpStatus.OK);
     }
 }

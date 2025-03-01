@@ -14,4 +14,6 @@ public interface PlayerService {
     ResponseDTO getAllPlayers();
 
     ResponseDTO getPlayerById(Long playerId);
+
+    ResponseDTO score(PlayerDTO dto);
 }

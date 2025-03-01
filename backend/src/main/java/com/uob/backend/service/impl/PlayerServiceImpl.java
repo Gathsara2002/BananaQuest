@@ -62,4 +62,22 @@ public class PlayerServiceImpl implements PlayerService {
         Optional<Player> player = repository.findById(playerId);
         return player.map(value -> new ResponseDTO("Player", "200", value)).orElseGet(() -> new ResponseDTO("Player not exist!", "500", player.get()));
     }
+
+    @Override
+    public ResponseDTO score(PlayerDTO dto) {
+        Optional<Player> player = repository.findById(dto.getPlayerId());
+        if (player.isEmpty()) {
+            return new ResponseDTO("No player!", "500", null);
+        }
+
+        Player existPlayer = player.get();
+
+        Player updatePlayer = new Player();
+        updatePlayer.setPlayerId(existPlayer.getPlayerId());
+        updatePlayer.setScore(existPlayer.getScore() + dto.getScore());
+        updatePlayer.setSignIn(existPlayer.getSignIn());
+
+        Player save = repository.save(updatePlayer);
+        return new ResponseDTO("Score updated!", "200", save);
+    }
 }
