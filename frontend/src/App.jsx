@@ -8,6 +8,7 @@ import WinComponent from "./views/pages/win/WinComponent.jsx";
 import LostComponent from "./views/pages/lost/LostComponent.jsx";
 import LeaderboardComponent from "./views/pages/leaderboard/LeaderboardComponent.jsx";
 import CreditComponent from "./views/pages/credit/CreditComponent.jsx";
+import ProtectRoute from "./service/ProtectedRoute.jsx";
 
 function App() {
 
@@ -21,7 +22,7 @@ function App() {
                 <Route path="/login"
                        element={<LogInComponent/>}>
                 </Route>
-                <Route path="/load"
+                {/*<Route path="/load"
                        element={<PlayComponent/>}>
                 </Route>
                 <Route path="/game"
@@ -38,7 +39,13 @@ function App() {
                 </Route>
                 <Route path="/credits"
                        element={<CreditComponent/>}>
-                </Route>
+                </Route>*/}
+                <Route path="/load" element={<ProtectRoute><PlayComponent/></ProtectRoute>}/>
+                <Route path="/game" element={<ProtectRoute><GameComponent/></ProtectRoute>}/>
+                <Route path="/win" element={<ProtectRoute><WinComponent/></ProtectRoute>}/>
+                <Route path="/lost" element={<ProtectRoute><LostComponent/></ProtectRoute>}/>
+                <Route path="/leaderboard" element={<ProtectRoute><LeaderboardComponent/></ProtectRoute>}/>
+                <Route path="/credits" element={<ProtectRoute><CreditComponent/></ProtectRoute>}/>
             </Routes>
         </Router>
     )
