@@ -80,4 +80,10 @@ public class PlayerServiceImpl implements PlayerService {
         Player save = repository.save(updatePlayer);
         return new ResponseDTO("Score updated!", "200", save);
     }
+
+    @Override
+    public Player findByFkId(Long fkId) {
+        Optional<Player> player = repository.findBySignIn_Id(fkId);
+        return player.orElse(null);
+    }
 }

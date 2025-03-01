@@ -2,6 +2,7 @@ package com.uob.backend.controller;
 
 import com.uob.backend.dto.PlayerDTO;
 import com.uob.backend.dto.ResponseDTO;
+import com.uob.backend.entity.Player;
 import com.uob.backend.service.PlayerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -37,5 +38,10 @@ public class PlayerController {
     public ResponseEntity<ResponseDTO> score(@RequestBody PlayerDTO dto) {
         ResponseDTO score = playerService.score(dto);
         return new ResponseEntity<>(score, HttpStatus.OK);
+    }
+
+    @GetMapping("get-by-fk-id")
+    public Player getPlayerByFkId(@RequestParam Long fkId) {
+        return playerService.findByFkId(fkId);
     }
 }
