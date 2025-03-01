@@ -7,12 +7,12 @@ const LogInComponent = () => {
 
     const navigate = useNavigate();
 
-    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
     const handleLogin = () => {
         const loginDetails = {
-            username,
+            email,
             password
         };
         console.log('login details:', loginDetails);
@@ -34,11 +34,11 @@ const LogInComponent = () => {
                     <h1 className='login-text'>LogIn</h1>
                     <input
                         type="text"
-                        name="username"
+                        name="email"
                         className="input"
-                        placeholder="Username"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
+                        placeholder="Email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                         style={{marginBottom: '20px', marginTop: '20px'}}
                     />
                     <input
