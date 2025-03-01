@@ -2,6 +2,9 @@ import React, {useEffect, useRef, useState} from 'react';
 import './style.css';
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
+import gameTrack from '../../../assets/game_track.mp3';
+import correctAnswer from '../../../assets/CorrectAnswer.mp3';
+import wrongAnswer from '../../../assets/WrongAnswer.mp3';
 
 const GameComponent = () => {
     const [data, setData] = useState(null);
@@ -15,74 +18,148 @@ const GameComponent = () => {
     const [gameResult, setGameResult] = useState(null); // 'win', 'lose', or null
     const [resultCountdown, setResultCountdown] = useState(null);
     const [audioInitialized, setAudioInitialized] = useState(false);
+    const [isLoadingGame, setIsLoadingGame] = useState(true);
 
     // Use refs for timers to easily clear them
     const timerRef = useRef(null);
     const resultTimerRef = useRef(null);
+
     // Audio refs for sound effects
     const backgroundMusicRef = useRef(null);
     const winSoundRef = useRef(null);
     const loseSoundRef = useRef(null);
 
+    // Store audio elements to ensure they remain loaded
+    const audioElementsRef = useRef([]);
+
     const navigate = useNavigate();
 
-    // Initialize audio
+    // Initialize audio - IMPORTANT FIX: Handle audio loading properly
     useEffect(() => {
-        // Create audio elements
-        backgroundMusicRef.current = new Audio('./../../../assets/game_track.mp3');
-        backgroundMusicRef.current.loop = true;
-        backgroundMusicRef.current.volume = 0.5;
+        console.log('Initializing audio...');
 
-        winSoundRef.current = new Audio('./../../../assets/CorrectAnswer.mp3');
-        loseSoundRef.current = new Audio('./../../../assets/WrongAnswer.mp3');
+        // Create background music element
+        const bgMusic = new Audio(gameTrack);
+        bgMusic.loop = true;
+        bgMusic.volume = 0.5;
+        bgMusic.preload = 'auto';
+        backgroundMusicRef.current = bgMusic;
 
-        // Set preload attribute
-        [backgroundMusicRef, winSoundRef, loseSoundRef].forEach(ref => {
-            if (ref.current) {
-                ref.current.preload = 'auto';
-            }
+        // Create win sound element
+        const winSound = new Audio(correctAnswer);
+        winSound.preload = 'auto';
+        winSoundRef.current = winSound;
+
+        // Create lose sound element
+        const loseSound = new Audio(wrongAnswer);
+        loseSound.preload = 'auto';
+        loseSoundRef.current = loseSound;
+
+        // Store all audio elements to prevent garbage collection
+        audioElementsRef.current = [bgMusic, winSound, loseSound];
+
+        // Debug logging to check if audio is correctly initialized
+        audioElementsRef.current.forEach((audio, index) => {
+            audio.addEventListener('canplaythrough', () => {
+                console.log(`Audio ${index} is ready to play`);
+            });
+
+            audio.addEventListener('error', (e) => {
+                console.error(`Audio ${index} error:`, e);
+                console.error('Error code:', audio.error?.code);
+            });
         });
 
         setAudioInitialized(true);
+        console.log('Audio initialization complete');
 
         return () => {
             // Clean up audio on component unmount
-            [backgroundMusicRef, winSoundRef, loseSoundRef].forEach(ref => {
-                if (ref.current) {
-                    ref.current.pause();
-                    ref.current.src = '';
-                }
+            audioElementsRef.current.forEach(audio => {
+                audio.pause();
+                audio.src = '';
             });
         };
     }, []);
 
-    // Function to play sound that respects mute state
+    // Improved play sound function
     const playSound = (audioRef) => {
-        if (!isMuted && audioRef.current) {
-            // Reset the audio to start
-            audioRef.current.currentTime = 0;
+        if (!audioRef || !audioRef.current) {
+            console.error('Invalid audio reference');
+            return;
+        }
 
-            // Create a play promise to handle autoplay restrictions
+        if (isMuted) {
+            console.log('Sound is muted, not playing');
+            return;
+        }
+
+        console.log('Attempting to play sound');
+
+        // Reset the audio to start
+        audioRef.current.currentTime = 0;
+
+        // Play with better error handling
+        try {
             const playPromise = audioRef.current.play();
 
-            // Handle potential play() promise rejection (happens with autoplay restrictions)
             if (playPromise !== undefined) {
                 playPromise.catch(error => {
-                    console.log("Audio play failed:", error);
-                    // Don't throw error to user, just log it
+                    console.error("Audio play failed:", error);
+
+                    // Try again with user interaction
+                    const handleUserInteraction = () => {
+                        audioRef.current.play().catch(e => console.error("Second attempt failed:", e));
+                        document.removeEventListener('click', handleUserInteraction);
+                    };
+
+                    document.addEventListener('click', handleUserInteraction, {once: true});
                 });
             }
+        } catch (error) {
+            console.error("Error playing sound:", error);
         }
     };
 
-    // Start background music on user interaction (to get around autoplay restrictions)
+    // Start background music - improved implementation
     const startBackgroundMusic = () => {
-        if (!isMuted && backgroundMusicRef.current && !backgroundMusicRef.current.playing) {
-            playSound(backgroundMusicRef);
+        if (isMuted || !backgroundMusicRef.current) return;
+
+        console.log('Starting background music');
+
+        // Check if already playing
+        if (!backgroundMusicRef.current.paused) {
+            console.log('Music is already playing');
+            return;
+        }
+
+        try {
+            backgroundMusicRef.current.currentTime = 0;
+            const playPromise = backgroundMusicRef.current.play();
+
+            if (playPromise !== undefined) {
+                playPromise.catch(error => {
+                    console.error("Background music failed to play:", error);
+
+                    // Create a one-time click handler to play music
+                    const playMusicOnInteraction = () => {
+                        backgroundMusicRef.current.play().catch(e =>
+                            console.error("Second attempt to play music failed:", e)
+                        );
+                        window.removeEventListener('click', playMusicOnInteraction);
+                    };
+
+                    window.addEventListener('click', playMusicOnInteraction, {once: true});
+                });
+            }
+        } catch (error) {
+            console.error("Error starting background music:", error);
         }
     };
 
     const gameWin = () => {
+        console.log('Game won!');
+
         // Stop the game timer
         if (timerRef.current) {
             clearTimeout(timerRef.current);
@@ -97,6 +174,8 @@ const GameComponent = () => {
     };
 
     const gameLost = () => {
+        console.log('Game lost!');
+
         // Stop the game timer
         if (timerRef.current) {
             clearTimeout(timerRef.current);
@@ -134,13 +213,17 @@ const GameComponent = () => {
         };
     }, [resultCountdown, gameResult, navigate]);
 
+    // Simplified game loading without preloading
     const loadGame = () => {
+        console.log('Loading game...');
+
         // Reset states
         setTimeLeft(60);
         setIsImageLoaded(false);
         setIsPaused(false);
         setGameResult(null);
         setResultCountdown(null);
+        setIsLoadingGame(true);
 
         // Clear any existing timers
         if (timerRef.current) {
@@ -150,44 +233,75 @@ const GameComponent = () => {
             clearTimeout(resultTimerRef.current);
         }
 
+        console.log('Fetching game data...');
         axios.get('https://marcconrad.com/uob/banana/api.php?out=json&base64=no')
             .then((response) => {
+                console.log('Game data received:', response.data);
                 setData(response);
-                setImageUrl(response.data.question);
-                setSolution(response.data.solution);
 
-                // Start background music
+                const imgUrl = response.data.question;
+                setImageUrl(imgUrl);
+                setSolution(response.data.solution);
+                setIsLoadingGame(false);
+
+                // Start background music only if fully initialized
                 if (audioInitialized && !isPaused && !isMuted) {
                     startBackgroundMusic();
                 }
             })
-            .catch(error => console.error('Error fetching data:', error));
-    }
+            .catch(error => {
+                console.error('Error fetching data:', error);
+                setIsLoadingGame(false);
+            });
+    };
 
+    // Load game on initial render or reload
     useEffect(() => {
         loadGame();
 
-        // Add a one-time click handler to the document to enable audio
-        // This is to work around autoplay restrictions in browsers
+        // Create a more robust audio initialization
         const enableAudio = () => {
-            startBackgroundMusic();
-            document.removeEventListener('click', enableAudio);
+            console.log('User interaction detected, attempting to enable audio');
+            if (audioInitialized) {
+                startBackgroundMusic();
+
+                // Also try to briefly play and pause all sounds to "warm them up"
+                audioElementsRef.current.forEach(audio => {
+                    const playPromise = audio.play();
+                    if (playPromise !== undefined) {
+                        playPromise
+                            .then(() => {
+                                audio.pause();
+                                audio.currentTime = 0;
+                                console.log('Sound warmed up successfully');
+                            })
+                            .catch(e => console.log('Sound warm-up failed, will try again on next interaction'));
+                    }
+                });
+            }
         };
 
-        document.addEventListener('click', enableAudio);
+        // Listen for user interaction
+        const interactionEvents = ['click', 'touchstart', 'keydown'];
+        interactionEvents.forEach(event => {
+            document.addEventListener(event, enableAudio, {once: true});
+        });
 
         return () => {
-            // Clean up timers on unmount
+            // Clean up
             if (timerRef.current) {
                 clearTimeout(timerRef.current);
             }
             if (resultTimerRef.current) {
                 clearTimeout(resultTimerRef.current);
             }
-            document.removeEventListener('click', enableAudio);
+            interactionEvents.forEach(event => {
+                document.removeEventListener(event, enableAudio);
+            });
         };
     }, [reloadGame]);
 
+    // Game timer
     useEffect(() => {
         // Only run the timer if the game is not paused, image is loaded, and no result yet
         if (isImageLoaded && timeLeft > 0 && !isPaused && !gameResult) {
@@ -206,8 +320,10 @@ const GameComponent = () => {
         if (backgroundMusicRef.current) {
             if (isMuted) {
                 backgroundMusicRef.current.pause();
+                console.log('Music muted');
             } else if (!isPaused && !gameResult && audioInitialized) {
                 startBackgroundMusic();
+                console.log('Music unmuted');
             }
         }
     }, [isMuted, isPaused, gameResult, audioInitialized]);
@@ -217,8 +333,10 @@ const GameComponent = () => {
         if (backgroundMusicRef.current && audioInitialized) {
             if (isPaused || gameResult) {
                 backgroundMusicRef.current.pause();
+                console.log('Music paused');
             } else if (!isMuted) {
                 startBackgroundMusic();
+                console.log('Music resumed');
             }
         }
     }, [isPaused, gameResult, isMuted, audioInitialized]);
@@ -226,6 +344,7 @@ const GameComponent = () => {
     const handleAnswer = (num) => {
         // Prevent answering if game is already decided
         if (gameResult) return;
+        console.log(`Selected answer: ${num}, Solution: ${solution}`);
 
         if (num === solution) {
             gameWin();
@@ -235,6 +354,7 @@ const GameComponent = () => {
     };
 
     const handleRetry = () => {
+        console.log('Retrying game');
         // Start music if it wasn't playing
         startBackgroundMusic();
         setReloadGame(!reloadGame);
@@ -243,19 +363,23 @@ const GameComponent = () => {
     const handlePause = () => {
         // Only allow pause if game is active
         if (!gameResult) {
+            console.log('Game paused');
             setIsPaused(true);
         }
     };
 
     const handleResume = () => {
+        console.log('Game resumed');
         setIsPaused(false);
     };
 
     const handleMute = () => {
+        console.log('Sound muted');
         setIsMuted(true);
     };
 
     const handleUnmute = () => {
+        console.log('Sound unmuted');
         setIsMuted(false);
     };
 
@@ -303,25 +427,38 @@ const GameComponent = () => {
             )}
 
             <div className='game-play-content'>
-                {!isImageLoaded && <div className='image-loader'>Loading...</div>}
-                <img
-                    src={imageUrl}
-                    alt="game puzzle"
-                    onLoad={() => setIsImageLoaded(true)}
-                    style={{
-                        display: isImageLoaded ? 'block' : 'none',
-                        filter: (isPaused || gameResult) ? 'blur(5px)' : 'none'
-                    }}
-                />
+                {isLoadingGame && (
+                    <div className='image-loader'>
+                        <div className="spinner"></div>
+                        <p>Loading puzzle...</p>
+                    </div>
+                )}
+                {imageUrl && (
+                    <img
+                        src={imageUrl}
+                        alt="game puzzle"
+                        onLoad={() => setIsImageLoaded(true)}
+                        style={{
+                            display: isImageLoaded ? 'block' : 'none',
+                            filter: (isPaused || gameResult) ? 'blur(5px)' : 'none'
+                        }}
+                    />
+                )}
             </div>
             <div className='game-play-button-panel'>
                 {[...Array(10).keys()].map(num => (
-                    <button key={num} className='game-play-button' onClick={() => handleAnswer(num)}>{num}</button>
+                    <button
+                        key={num}
+                        className='game-play-button'
+                        onClick={() => handleAnswer(num)}
+                        disabled={!isImageLoaded || isPaused || gameResult}
+                    >
+                        {num}
+                    </button>
                 ))}
             </div>
         </div>
-    )
-        ;
+    );
 };
 
 export default GameComponent;
