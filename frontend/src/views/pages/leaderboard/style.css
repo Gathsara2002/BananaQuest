@@ -51,4 +51,53 @@
         position: relative;
         top: 20px;
     }
+
+    .leaderboard-score-container {
+        height: 45vh;
+        width: 30vw;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 50px;
+    }
+
+    .leaderboard-score-row {
+        height: 50px;
+        width: 30vw;
+        border-radius: 5px;
+        background-color: white;
+        display: flex;
+        align-items: center;
+        justify-content: start;
+        padding: 5px;
+        margin-bottom: 10px;
+        box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+    }
+
+    .leaderboard-score-rank{
+        height: 45px;
+        width: 45px;
+        border-radius: 100%;
+        background-color: #feca57;
+        color: white;
+        text-align: center;
+        font-size: 28px;
+        margin-left: 25px;
+        margin-right: 50px;
+    }
+
+    .leaderboard-score-user{
+        width: 250px;
+        color: black;
+        font-size: 24px;
+        font-family: 'Irish Grover', cursive;
+        font-weight: bold;
+        text-align: start;
+    }
+
+    .leaderboard-score-point{
+        color: black;
+        font-size: 24px;
+        font-family: 'Irish Grover', cursive;
+        font-weight: bold;
+    }
 }
