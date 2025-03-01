@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -41,18 +42,19 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
-    public ResponseDTO getAllPlayers(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        Page<Player> all = repository.findAll(pageable);
+    public ResponseDTO getAllPlayers() {
+        List<Player> all = repository.findAll();
         if (all.isEmpty()) {
             return new ResponseDTO("No players to display!", "500", null);
         }
-        ArrayList<PlayerDTO> list = new ArrayList<>();
-        for (Player player : all) {
-            PlayerDTO map = mapper.map(player, PlayerDTO.class);
-            list.add(map);
-        }
-        return new ResponseDTO("Success", "200", list);
+//        ArrayList<PlayerDTO> list = new ArrayList<>();
+//        for (Player player : all) {
+//            System.out.println(player);
+//            PlayerDTO map = mapper.map(player, PlayerDTO.class);
+//            System.out.println(map);
+//            list.add(map);
+//        }
+        return new ResponseDTO("Success", "200", all);
     }
 
     @Override

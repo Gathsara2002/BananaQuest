@@ -21,8 +21,8 @@ public class PlayerController {
     private final PlayerService playerService;
 
     @GetMapping("get-all")
-    public ResponseEntity<ResponseDTO> getAllPlayers(@RequestParam int page, @RequestParam int size) {
-        ResponseDTO allPlayers = playerService.getAllPlayers(page, size);
+    public ResponseEntity<ResponseDTO> getAllPlayers() {
+        ResponseDTO allPlayers = playerService.getAllPlayers();
         return new ResponseEntity<>(allPlayers, HttpStatus.OK);
     }
 

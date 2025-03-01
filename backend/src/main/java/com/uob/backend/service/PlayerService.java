@@ -11,7 +11,7 @@ import com.uob.backend.dto.ResponseDTO;
 public interface PlayerService {
     ResponseDTO savePlayer(PlayerDTO dto);
 
-    ResponseDTO getAllPlayers(int page, int size);
+    ResponseDTO getAllPlayers();
 
     ResponseDTO getPlayerById(Long playerId);
 }
