@@ -1,5 +1,6 @@
 package com.uob.backend.service;
 
+import com.uob.backend.dto.LoginDTO;
 import com.uob.backend.dto.ResponseDTO;
 import com.uob.backend.dto.SignInDTO;
 
@@ -12,5 +13,7 @@ public interface SignInService {
     SignInDTO signInUser(SignInDTO dto);
 
     ResponseDTO getAllUsers();
+
+    ResponseDTO loginUser(LoginDTO dto);
 
 }

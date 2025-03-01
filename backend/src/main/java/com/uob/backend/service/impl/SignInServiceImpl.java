@@ -1,5 +1,6 @@
 package com.uob.backend.service.impl;
 
+import com.uob.backend.dto.LoginDTO;
 import com.uob.backend.dto.ResponseDTO;
 import com.uob.backend.dto.SignInDTO;
 import com.uob.backend.entity.SignIn;
@@ -35,12 +36,10 @@ public class SignInServiceImpl implements SignInService {
         if (isExist) {
             return null;
         }
-
         //save user
         SignIn signInUser = mapper.map(dto, SignIn.class);
         SignIn savedUser = repository.save(signInUser);
-        SignInDTO signInDTO = mapper.map(savedUser, SignInDTO.class);
-        return signInDTO;
+        return mapper.map(savedUser, SignInDTO.class);
     }
 
     @Override
@@ -49,13 +48,24 @@ public class SignInServiceImpl implements SignInService {
         if (all.isEmpty()) {
             return new ResponseDTO("No users found!", "500", all);
         }
-
         ArrayList<SignInDTO> userList = new ArrayList<>();
-
         for (SignIn signIn : all) {
             SignInDTO map = mapper.map(signIn, SignInDTO.class);
             userList.add(map);
         }
         return new ResponseDTO("Success!", "200", userList);
+    }
+
+    @Override
+    public ResponseDTO loginUser(LoginDTO dto) {
+        Optional<SignIn> login = repository.findByEmail(dto.getEmail());
+        if (login.isEmpty()) {
+            return new ResponseDTO("No account found.Please check email!", "500", null);
+        }
+        //if login exist check password
+        if (!(login.get().getPassword().equalsIgnoreCase(dto.getPassword()))) {
+            return new ResponseDTO("Incorrect password!", "500", null);
+        }
+        return new ResponseDTO("Success!", "200", login.get());
     }
 }

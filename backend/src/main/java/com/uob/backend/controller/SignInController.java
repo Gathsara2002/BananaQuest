@@ -46,7 +46,8 @@ public class SignInController {
     }
 
     @PostMapping("/login")
-    public void loginPlayer(@RequestBody LoginDTO loginDTO) {
-
+    public ResponseEntity<ResponseDTO> loginPlayer(@RequestBody LoginDTO loginDTO) {
+        ResponseDTO dto = signInService.loginUser(loginDTO);
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 }
