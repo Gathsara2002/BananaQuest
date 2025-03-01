@@ -3,7 +3,7 @@ import axios from "axios";
 
 export async function getAllPlayers() {
     try {
-        const response = await axios.get(`${BASE_URL}/player/get-all`);
+        const response = await axios.get(`${BASE_URL}player/get-all`);
         return response.data;
     } catch (error) {
         console.error('Players Loading Error:', error.response ? error.response.data : error.message);
@@ -13,7 +13,7 @@ export async function getAllPlayers() {
 
 export async function getPlayerById(id) {
     try {
-        const response = await axios.get(`${BASE_URL}/player/get-by-id`,
+        const response = await axios.get(`${BASE_URL}player/get-by-id`,
             {params: id});
         return response.data;
     } catch

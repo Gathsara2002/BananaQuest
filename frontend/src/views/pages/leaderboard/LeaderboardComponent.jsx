@@ -1,13 +1,28 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import './style.css';
 import {useNavigate} from "react-router-dom";
+import {getAllPlayers} from "../../../service/PlayerService.js";
 
 const LeaderboardComponent = () => {
+    const [players, setPlayers] = useState([]);
+
+    const fetchPlayers = async () => {
+        try {
+            const data = await getAllPlayers();
+            setPlayers(data.result);
+        } catch (error) {
+            console.error('Players Loading Error:', error.message);
+        }
+    };
+
+    useEffect(() => {
+        fetchPlayers();
+    }, []);
 
     const navigate = useNavigate();
 
     const goToMenu = () => {
-        navigate('/load')
+        navigate('/load');
     }
 
     return (
@@ -16,16 +31,24 @@ const LeaderboardComponent = () => {
                 <div className='leaderboard-content'>
                     <h3 className='leaderboard-topic'>LEADERBOARD</h3>
                     <div className='leaderboard-score-container'>
-                        <div className='leaderboard-score-row'>
-                            <div className='leaderboard-score-rank'>1</div>
-                            <div className='leaderboard-score-user'>Gathsara</div>
-                            <div className='leaderboard-score-point'>1000</div>
-                        </div>
+                        {players && players.length > 0 ? (
+                            players.map((player, index) => (
+                                <div key={player.id || index} className='leaderboard-score-row'>
+                                    <div className='leaderboard-score-rank'>{index + 1}</div>
+                                    <div className='leaderboard-score-user'>{player.signIn.username}</div>
+                                    <div className='leaderboard-score-point'>{player.score}</div>
+                                </div>
+                            ))
+                        ) : (
+                            <div className='leaderboard-score-row'>
+                                <div className='leaderboard-score-user'>No players available</div>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
             <div className='leaderboard-buttons'>
-                <div className='home-btn' onClick={goToMenu}></div>
+                <div className='home-btn' onClick={goToMenu}>Back to Menu</div>
             </div>
         </div>
     );
