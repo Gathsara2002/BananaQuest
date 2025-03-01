@@ -14,6 +14,16 @@ export async function signInUser(signIn) {
 export async function loginUser(login) {
     try {
         const response = await axios.post(`${BASE_URL}sign-in/login`, login);
+        // Assuming the backend response includes a 'userId' field
+        const userId = response.data.result.id;
+
+        if (userId) {
+            // If a user ID already exists in localStorage, remove it to avoid conflicts
+            localStorage.removeItem('banana_user');
+
+            // Store the new user ID in localStorage
+            localStorage.setItem('banana_user', userId);
+        }
         return response.data;
     } catch (error) {
         console.error('Login Error:', error.response ? error.response.data : error.message);

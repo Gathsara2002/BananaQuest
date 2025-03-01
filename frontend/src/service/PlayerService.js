@@ -22,3 +22,26 @@ export async function getPlayerById(id) {
         throw error;
     }
 }
+
+export async function score(player) {
+    try {
+        const response = await axios.post(`${BASE_URL}player/score`,player);
+        return response.data;
+    } catch
+        (error) {
+        console.error('Player scoring Error:', error.response ? error.response.data : error.message);
+        throw error;
+    }
+}
+
+export async function getPlayerByFkId(id) {
+    try {
+        const response = await axios.get(`${BASE_URL}player/get-by-fk-id`,
+            {params: id});
+        return response.data;
+    } catch
+        (error) {
+        console.error('Player Loading Error:', error.response ? error.response.data : error.message);
+        throw error;
+    }
+}
