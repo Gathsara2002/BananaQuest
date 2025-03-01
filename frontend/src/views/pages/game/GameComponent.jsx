@@ -5,6 +5,7 @@ import {useNavigate} from "react-router-dom";
 import gameTrack from '../../../assets/game_track.mp3';
 import correctAnswer from '../../../assets/CorrectAnswer.mp3';
 import wrongAnswer from '../../../assets/WrongAnswer.mp3';
+import {score, getPlayerByFkId} from "../../../service/PlayerService.js";
 
 const GameComponent = () => {
     const [data, setData] = useState(null);
@@ -341,6 +342,32 @@ const GameComponent = () => {
         }
     }, [isPaused, gameResult, isMuted, audioInitialized]);
 
+    const handleScore = async () => {
+        try {
+            const signInId = localStorage.getItem("banana_userId");
+            if (!signInId) {
+                console.error("No user ID found in localStorage.");
+                return;
+            }
+            // Ensure getPlayerByFkId properly handles async data fetching
+            const playerByFkId = await getPlayerByFkId(signInId);
+            if (!playerByFkId) {
+                console.error("No player found for the given signInId.");
+                return;
+            }
+            const player = {
+                playerId: playerByFkId.playerId,
+                score: 25,
+                signInDTO: playerByFkId.signInDTO
+            };
+
+            await score(player); // Ensure score() is awaited if it's async
+            console.log("Score submitted successfully!");
+        } catch (error) {
+            console.error("Error handling score:", error);
+        }
+    };
+
     const handleAnswer = (num) => {
         // Prevent answering if game is already decided
         if (gameResult) return;
@@ -348,6 +375,7 @@ const GameComponent = () => {
 
         if (num === solution) {
             gameWin();
+            handleScore();
         } else {
             gameLost();
         }

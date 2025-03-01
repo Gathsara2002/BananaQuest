@@ -19,10 +19,10 @@ export async function loginUser(login) {
 
         if (userId) {
             // If a user ID already exists in localStorage, remove it to avoid conflicts
-            localStorage.removeItem('banana_user');
+            localStorage.removeItem('banana_userId');
 
             // Store the new user ID in localStorage
-            localStorage.setItem('banana_user', userId);
+            localStorage.setItem('banana_userId', userId);
         }
         return response.data;
     } catch (error) {

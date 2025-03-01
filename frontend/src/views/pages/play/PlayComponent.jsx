@@ -15,6 +15,7 @@ const PlayComponent = () => {
     }
 
     const logOut = () => {
+        localStorage.removeItem("banana_userId");
         navigate('/login')
     }
 

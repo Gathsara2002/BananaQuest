@@ -26,6 +26,7 @@ export async function getPlayerById(id) {
 export async function score(player) {
     try {
         const response = await axios.post(`${BASE_URL}player/score`,player);
+        console.log(response)
         return response.data;
     } catch
         (error) {
@@ -34,10 +35,11 @@ export async function score(player) {
     }
 }
 
-export async function getPlayerByFkId(id) {
+export async function getPlayerByFkId(fkId) {
     try {
         const response = await axios.get(`${BASE_URL}player/get-by-fk-id`,
-            {params: id});
+            {params: {fkId}});
+        console.log(response);
         return response.data;
     } catch
         (error) {

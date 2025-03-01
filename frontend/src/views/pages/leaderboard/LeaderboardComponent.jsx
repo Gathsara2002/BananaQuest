@@ -48,7 +48,7 @@ const LeaderboardComponent = () => {
                 </div>
             </div>
             <div className='leaderboard-buttons'>
-                <div className='home-btn' onClick={goToMenu}>Back to Menu</div>
+                <div className='home-btn' onClick={goToMenu}></div>
             </div>
         </div>
     );
