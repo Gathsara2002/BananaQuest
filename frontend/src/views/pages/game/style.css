@@ -80,6 +80,10 @@
         background-image: url("../../../assets/mute.png");
     }
 
+    .unmute {
+        background-image: url("../../../assets/unmute.png");
+    }
+
     .pause {
         background-image: url("../../../assets/pause.png");
     }
@@ -99,5 +103,67 @@
         margin: 0;
         padding-top: 20px;
         color: black;
+    }
+
+
+    .game-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.7);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 10;
+    }
+
+    .game-overlay h2 {
+        color: white;
+        margin-bottom: 80px;
+        font-size: 32px;
+    }
+
+    .game-overlay button {
+        padding: 10px 20px;
+        font-size: 18px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .game-overlay button:hover {
+        background-color: #45a049;
+    }
+
+    .result-overlay {
+        background-color: rgba(0, 0, 0, 0.8);
+    }
+
+    .result-overlay h2 {
+        color: #ffd700;
+        font-size: 42px;
+        margin-bottom: 10px;
+    }
+
+    .result-countdown {
+        font-size: 60px;
+        font-weight: bold;
+        color: white;
+        margin: 15px 0;
+    }
+
+    .result-overlay p {
+        color: #cccccc;
+        font-size: 18px;
+    }
+
+    .game-play-button:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
     }
 }
