@@ -21,11 +21,21 @@ const SignInComponent = () => {
         signInUser(userDetails)
             .then(response => {
                 console.log('Sign-in successful:', response);
+                toast.success('Sign-in successful!', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: false,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    transition: Slide,
+                });
                 navigate('/login');
             })
             .catch(error => {
-                console.error('Sign-in failed:', error);
-                toast.error('🎉 Sign-in unsuccessful!', {
+                toast.error('Sign-in unsuccessful!', {
                     position: "top-right",
                     autoClose: 5000,
                     hideProgressBar: false,

@@ -16,15 +16,25 @@ const LogInComponent = () => {
             email,
             password
         };
-        console.log('login details:', loginDetails);
         loginUser(loginDetails)
             .then(response => {
                 console.log('Login successful:', response);
+                toast.error('Login successful!', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: false,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    transition: Slide,
+                });
                 navigate('/load');
             })
             .catch(error => {
-                console.error('Login failed:', error);
-                toast.error('🎉 Login failed!', {
+                console.log(error);
+                toast.error('Login failed!', {
                     position: "top-right",
                     autoClose: 5000,
                     hideProgressBar: false,
