@@ -36,6 +36,7 @@ public class PlayerController {
 
     @PostMapping("score")
     public ResponseEntity<ResponseDTO> score(@RequestBody PlayerDTO dto) {
+        System.out.println(dto);
         ResponseDTO score = playerService.score(dto);
         return new ResponseEntity<>(score, HttpStatus.OK);
     }
