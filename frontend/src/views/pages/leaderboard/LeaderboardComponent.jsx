@@ -9,7 +9,8 @@ const LeaderboardComponent = () => {
     const fetchPlayers = async () => {
         try {
             const data = await getAllPlayers();
-            setPlayers(data.result);
+            const sortedPlayers = data.result.sort((a, b) => b.score - a.score);
+            setPlayers(sortedPlayers);
         } catch (error) {
             console.error('Players Loading Error:', error.message);
         }
