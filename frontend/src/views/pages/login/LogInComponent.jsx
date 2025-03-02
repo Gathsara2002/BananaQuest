@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import './style.css';
 import {useNavigate} from "react-router-dom";
 import {loginUser} from "../../../service/SignInService.js";
+import {Slide, toast, ToastContainer} from "react-toastify";
 
 const LogInComponent = () => {
 
@@ -23,12 +24,35 @@ const LogInComponent = () => {
             })
             .catch(error => {
                 console.error('Login failed:', error);
-                alert('Login failed. Please try again.');
+                toast.error('🎉 Login failed!', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: false,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    transition: Slide,
+                });
             });
     };
 
     return (
         <div className='login-wrapper'>
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick={false}
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+                transition={Slide}
+            />
             <div className='login-wallpaper'>
                 <div className='login-card'>
                     <h1 className='login-text'>LogIn</h1>

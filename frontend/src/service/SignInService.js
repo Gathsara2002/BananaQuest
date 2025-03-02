@@ -4,6 +4,7 @@ import axios from "axios";
 export async function signInUser(signIn) {
     try {
         const response = await axios.post(`${BASE_URL}sign-in/save`, signIn);
+        console.log(response.data);
         return response.data;
     } catch (error) {
         console.error('Sign-in Error:', error.response ? error.response.data : error.message);

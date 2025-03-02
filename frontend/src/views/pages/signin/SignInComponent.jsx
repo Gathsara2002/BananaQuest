@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import './style.css';
 import {useNavigate} from "react-router-dom";
 import {signInUser} from "./../../../service/SignInService.js";
+import {Slide, toast, ToastContainer} from "react-toastify";
 
 const SignInComponent = () => {
     const navigate = useNavigate();
@@ -24,12 +25,35 @@ const SignInComponent = () => {
             })
             .catch(error => {
                 console.error('Sign-in failed:', error);
-                alert('Sign-in failed. Please try again.');
+                toast.error('🎉 Sign-in unsuccessful!', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: false,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    transition: Slide,
+                });
             });
     };
 
     return (
         <div className='signin-wrapper'>
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick={false}
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+                transition={Slide}
+            />
             <div className='signin-wallpaper'>
                 <div className='signin-card'>
                     <h1 className='signin-text'>SignIn</h1>
