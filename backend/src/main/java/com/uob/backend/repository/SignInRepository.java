@@ -13,4 +13,6 @@ import java.util.Optional;
 public interface SignInRepository extends JpaRepository<SignIn, Long> {
 
     Optional<SignIn> findByEmail(String email);
+
+    SignIn findByUsername(String username);
 }

@@ -1,5 +1,6 @@
 package com.uob.backend.config;
 
+import com.uob.backend.filter.JwtFilter;
 import com.uob.backend.service.impl.MyUserDetailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
