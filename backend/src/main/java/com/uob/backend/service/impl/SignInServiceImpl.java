@@ -9,6 +9,7 @@ import com.uob.backend.service.SignInService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public class SignInServiceImpl implements SignInService {
 
     private final SignInRepository repository;
     private final ModelMapper mapper;
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(12);
 
     @Override
     public SignInDTO signInUser(SignInDTO dto) {
@@ -63,7 +65,7 @@ public class SignInServiceImpl implements SignInService {
             return new ResponseDTO("No account found.Please check email!", "500", null);
         }
         //if login exist check password
-        if (!(login.get().getPassword().equalsIgnoreCase(dto.getPassword()))) {
+        if (!passwordEncoder.matches(dto.getPassword(), login.get().getPassword())) {
             return new ResponseDTO("Incorrect password!", "500", null);
         }
         return new ResponseDTO("Success!", "200", login.get());

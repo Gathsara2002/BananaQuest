@@ -9,6 +9,7 @@ import com.uob.backend.service.SignInService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -24,9 +25,11 @@ public class SignInController {
 
     private final SignInService signInService;
     private final PlayerService playerService;
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(12);
 
     @PostMapping("/save")
     public ResponseEntity<SignInDTO> signInUser(@RequestBody SignInDTO dto) {
+        dto.setPassword(passwordEncoder.encode(dto.getPassword()));
         SignInDTO response = signInService.signInUser(dto);
         // If sign in success save player
         if (response.getId() != 0) {
